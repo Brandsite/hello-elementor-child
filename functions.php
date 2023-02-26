@@ -1,6 +1,10 @@
 <?php
 
 define('BR_THEME_VERSION', '1.0.0');
+function log_stuff($stuff_to_log)
+{
+    error_log(print_r($stuff_to_log, true));
+}
 
 function my_enqueue_styles()
 {
@@ -44,6 +48,20 @@ $br_optimize = new BrOptimize(array(
     'comments_admin_menu'   => false,
     'comments_admin_bar'    => false,
     'comment_support_page'  => false,
-    'comment_support_post'  => false
+    'comment_support_post'  => false,
+    'defer_javascript'      => true,
+
+    //exceptions based on .js file URL. add a file name, full URL or part of the URL
+    'defer_exceptions_file' => array(
+        'jquery.min.js',
+        'cdn-cookieyes',
+        'wp-includes/js',
+        'woocommerce-ultimate-gift-card-product-single.js',
+    ),
+
+    //exceptions based on page. add page ID - e.g. 66 or page title - e.g. 'Contacts page'
+    'defer_exceptions_page' => array(
+//         'Blogs sdd'
+    )
 ));
 $br_optimize->hooks();

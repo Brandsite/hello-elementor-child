@@ -31,7 +31,10 @@ if (!class_exists('BrOptimize')) {
             'comments_admin_menu'   => false,
             'comments_admin_bar'    => false,
             'comment_support_page'  => false,
-            'defer_video'           => false
+            'defer_video'           => false,
+            'defer_javascript'      => true,
+            'defer_exceptions_file' => array(),
+            'defer_exceptions_page' => array()
         );
 
         /**
@@ -65,6 +68,8 @@ if (!class_exists('BrOptimize')) {
             add_action('wp_enqueue_scripts', [$this, 'remove_gutenberg_css']);
 
             add_filter('wp_headers', [$this, 'disable_x_pingback']);
+
+            add_filter('clean_url', [$this, 'defer_javascript'], 11, 1);
 
             $this->remove_wp_emoji();
 
@@ -137,6 +142,8 @@ if (!class_exists('BrOptimize')) {
 
                 // Remove filter of the oEmbed result before any HTTP requests are made.
                 remove_filter('pre_oembed_result', 'wp_filter_pre_oembed_result', 10);
+
+                add_filter('clean_url', [$this, 'defer_javascript'], 11, 1);
             }
         }
 
@@ -253,7 +260,35 @@ if (!class_exists('BrOptimize')) {
             wp_dequeue_style('wp-block-library-theme');
             // wp_dequeue_style('wc-block-style'); // REMOVE WOOCOMMERCE BLOCK CSS
             wp_dequeue_style('global-styles'); // REMOVE THEME.JSON
-         wp_dequeue_style('classic-theme-styles');
+            wp_dequeue_style('classic-theme-styles');
+        }
+
+        /**
+         * ------------------------------------------------------------
+         * Defer JS
+         */
+        function defer_javascript($url)
+        {
+            if ($this->settings['defer_javascript']) {
+                if (is_admin()) return $url;
+
+                if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_option('active_plugins')))) {
+                    if (is_checkout() || is_cart() || is_account_page()) return $url;
+                }
+
+                if (FALSE === strpos($url, '.js')) return $url;
+
+                foreach ($this->settings['defer_exceptions_file'] as $part_of_url) {
+                    if (strpos($url, $part_of_url)) return $url;
+                }
+
+                foreach ($this->settings['defer_exceptions_page'] as $page) {
+                    global $post;
+                    if ($post->ID == $page || $post->post_title == $page) return $url;
+                }
+
+                return "$url' defer ";
+            }
         }
     } //Optimize
 
