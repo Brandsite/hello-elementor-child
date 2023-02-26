@@ -61,7 +61,7 @@ $br_optimize = new BrOptimize(array(
 
     //exceptions based on page. add page ID - e.g. 66 or page title - e.g. 'Contacts page'
     'defer_exceptions_page' => array(
-//         'Blogs sdd'
+//         'Blogs'
     )
 ));
 $br_optimize->hooks();
