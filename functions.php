@@ -44,6 +44,6 @@ $br_optimize = new BrOptimize(array(
     'comments_admin_menu'   => false,
     'comments_admin_bar'    => false,
     'comment_support_page'  => false,
-	'comment_support_post'  => false
+    'comment_support_post'  => false
 ));
 $br_optimize->hooks();
