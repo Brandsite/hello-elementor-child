@@ -30,3 +30,20 @@ function svg_mime_type($mimes = array())
     return $mimes;
 }
 add_filter('upload_mimes', 'svg_mime_type');
+
+//Optimize speed and remove the unwanted stuff
+require_once get_theme_file_path() . '/BrOptimize.php';
+
+$br_optimize = new BrOptimize(array(
+    'emoji'                 => false,
+    'oembed'                => false,
+    'jQuery_migrate'        => false,
+    'new_content_admin_bar' => false,
+    'archive_admin_bar'     => false,
+    'editor_page'           => false, //remove editor from pages
+    'comments_admin_menu'   => false,
+    'comments_admin_bar'    => false,
+    'comment_support_page'  => false,
+	'comment_support_post'  => false
+));
+$br_optimize->hooks();
