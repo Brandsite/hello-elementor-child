@@ -288,10 +288,9 @@ if (!class_exists('BrOptimize')) {
                 }
 
                 return "$url' defer ";
-            }
-            else{
+            } else {
                 return $url;
-        }
-    } //Optimize
-
+            }
+        } //Optimize
+    }
 }
