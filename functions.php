@@ -39,17 +39,17 @@ add_filter('upload_mimes', 'svg_mime_type');
 require_once get_theme_file_path() . '/BrOptimize.php';
 
 $br_optimize = new BrOptimize(array(
-    'emoji'                 => false,
-    'oembed'                => false,
-    'jQuery_migrate'        => false,
-    'new_content_admin_bar' => false,
-    'archive_admin_bar'     => false,
-    'editor_page'           => false, //remove editor from pages
-    'comments_admin_menu'   => false,
-    'comments_admin_bar'    => false,
-    'comment_support_page'  => false,
-    'comment_support_post'  => false,
-    'defer_javascript'      => true,
+    'emoji'                 => true,
+    'oembed'                => true,
+    'jQuery_migrate'        => true,
+    'new_content_admin_bar' => true,
+    'archive_admin_bar'     => true,
+    'editor_page'           => true, //remove editor from pages
+    'comments_admin_menu'   => true,
+    'comments_admin_bar'    => true,
+    'comment_support_page'  => true,
+    'comment_support_post'  => true,
+    'defer_javascript'      => false,
 
     //exceptions based on .js file URL. add a file name, full URL or part of the URL
     'defer_exceptions_file' => array(
